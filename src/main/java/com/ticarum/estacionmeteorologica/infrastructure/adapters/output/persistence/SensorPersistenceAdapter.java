@@ -48,4 +48,9 @@ public class SensorPersistenceAdapter implements ISensorPersistencePort{
 		
 	}
 
+	@Override
+	public boolean comprobarSensorDuplicado(String tipoSensor) {
+		return sensorRepository.existsByTipoIgnoreCase(tipoSensor);
+	}
+
 }

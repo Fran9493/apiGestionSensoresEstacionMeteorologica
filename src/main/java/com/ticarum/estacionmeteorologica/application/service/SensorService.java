@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.ticarum.estacionmeteorologica.application.ports.input.ISensorServicePort;
 import com.ticarum.estacionmeteorologica.application.ports.output.ISensorPersistencePort;
+import com.ticarum.estacionmeteorologica.domain.exception.SensorAlreadyExistsException;
 import com.ticarum.estacionmeteorologica.domain.exception.SensorNotFoundException;
 import com.ticarum.estacionmeteorologica.domain.model.Sensor;
 
@@ -19,6 +20,12 @@ public class SensorService implements ISensorServicePort {
 
 	@Override
 	public Sensor save(Sensor sensor) {
+				
+		if(sensorPersistencePort.comprobarSensorDuplicado(sensor.getTipo())) {
+			
+			throw new SensorAlreadyExistsException();
+			
+		}
 
 		return sensorPersistencePort.registrarSensor(sensor);
 

@@ -14,5 +14,7 @@ public interface ISensorPersistencePort {
 	List<Sensor> listarSensores();
 
 	void eliminarSensor(Integer id);
+	
+	boolean comprobarSensorDuplicado(String tipoSensor);
 
 }

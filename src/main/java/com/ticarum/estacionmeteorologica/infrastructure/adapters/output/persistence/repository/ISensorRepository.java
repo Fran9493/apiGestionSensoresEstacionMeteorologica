@@ -6,4 +6,6 @@ import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persiste
 
 public interface ISensorRepository extends JpaRepository<SensorEntity, Integer>{
 
+	boolean existsByTipoIgnoreCase(String tipoSensor);
+	
 }
