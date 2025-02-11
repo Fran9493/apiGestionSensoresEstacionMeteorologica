@@ -27,7 +27,7 @@ public class SensorService implements ISensorServicePort {
 			
 		}
 
-		return sensorPersistencePort.registrarSensor(sensor);
+		return sensorPersistencePort.nuevoSensor(sensor);
 
 	}
 

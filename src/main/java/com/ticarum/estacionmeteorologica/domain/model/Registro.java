@@ -2,6 +2,8 @@ package com.ticarum.estacionmeteorologica.domain.model;
 
 import java.time.LocalDateTime;
 
+import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.model.response.SensorResponse;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +20,6 @@ public class Registro {
 	private Integer id;
 	private double valor;
 	private LocalDateTime fecha;
-	private Sensor sensor;
+	private SensorResponse sensor;
 
 }

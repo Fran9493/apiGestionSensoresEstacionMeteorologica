@@ -20,7 +20,7 @@ public class SensorPersistenceAdapter implements ISensorPersistencePort{
 	private final ISensorPersistenceMapper sensorPersistenceMapper;
 
 	@Override
-	public Sensor registrarSensor(Sensor sensor) {
+	public Sensor nuevoSensor(Sensor sensor) {
 
 		return sensorPersistenceMapper.toSensor(sensorRepository.save(sensorPersistenceMapper.toSensorEntity(sensor)));
 		

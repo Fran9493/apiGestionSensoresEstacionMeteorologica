@@ -1,5 +1,6 @@
 package com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -22,11 +23,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "registro")
-public class RegistroEntity {
+public class RegistroEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_registro")
+	@Column(name = "id")
 	private Integer id;
 	
 	@Column(name = "valor")
@@ -35,8 +36,8 @@ public class RegistroEntity {
 	@Column(name = "fecha")
 	private LocalDateTime fecha;
 		
-	@ManyToOne()
-	@JoinColumn(name = "id_sensor", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "id_sensor", referencedColumnName = "id")
 	private SensorEntity sensor;
 	
 }

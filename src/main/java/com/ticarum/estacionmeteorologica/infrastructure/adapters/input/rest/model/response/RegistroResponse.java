@@ -18,6 +18,6 @@ public class RegistroResponse {
 	private Integer id;
 	private double valor;
 	private LocalDateTime fecha;
-	private Integer idSensor;
+	private SensorResponse sensor;
 	
 }

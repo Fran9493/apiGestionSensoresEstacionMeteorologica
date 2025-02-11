@@ -11,4 +11,8 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create 	
+      ddl-auto: create
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html					 	

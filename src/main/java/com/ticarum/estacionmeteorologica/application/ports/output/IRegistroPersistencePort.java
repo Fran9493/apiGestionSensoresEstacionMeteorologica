@@ -1,6 +1,5 @@
 package com.ticarum.estacionmeteorologica.application.ports.output;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,10 +9,10 @@ public interface IRegistroPersistencePort {
 
 	Registro nuevoRegistro (Registro registro);
 	
-	Optional <Registro> obtenerRegistroActual (Integer idSensor);
+	Optional <Registro> buscarRegistroPorId (Integer idRegistro);
 	
-	Optional <Registro> obtenerRegistroMedioRango (Integer idSensor, LocalDateTime fechaInicio, LocalDateTime fechaFin);
+	List<Registro> listarRegistros();
 	
-	List <Registro> obtenerHistoricoRegistros (Integer idSensor);
+	void eliminarRegistro(Integer id);
 	
 }

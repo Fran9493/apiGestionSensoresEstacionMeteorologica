@@ -2,6 +2,8 @@ package com.ticarum.estacionmeteorologica.domain.model;
 
 import java.util.List;
 
+import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.model.response.RegistroResponse;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +20,6 @@ public class Sensor {
 	private Integer id;
 	private String tipo;
 	private String magnitud;
-	private List<Registro> registrosSensor;
+	private List<RegistroResponse> registrosSensor;
 
 }

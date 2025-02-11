@@ -7,7 +7,7 @@ import com.ticarum.estacionmeteorologica.domain.model.Sensor;
 
 public interface ISensorPersistencePort {
 
-	Sensor registrarSensor(Sensor sensor);
+	Sensor nuevoSensor(Sensor sensor);
 	
 	Optional<Sensor> buscarSensorPorId (Integer id);
 

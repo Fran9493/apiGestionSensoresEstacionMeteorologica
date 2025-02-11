@@ -1,5 +1,6 @@
 package com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -22,11 +23,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "sensor")
-public class SensorEntity {
+public class SensorEntity implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_sensor")
+	@Column(name = "id")
 	private Integer id;
 	
 	@Column(name = "tipo")

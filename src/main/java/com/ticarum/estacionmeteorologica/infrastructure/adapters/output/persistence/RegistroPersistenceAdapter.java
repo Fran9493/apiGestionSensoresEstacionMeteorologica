@@ -1,6 +1,5 @@
 package com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,25 +27,22 @@ public class RegistroPersistenceAdapter implements IRegistroPersistencePort{
 	}
 
 	@Override
-	public Optional<Registro> obtenerRegistroActual(Integer idSensor) {
-		
-		return registroRepository.findById(idSensor)
-				.map(registroPersistenceMapper::toRegistro);
-		
-	}
-
-	@Override
-	public Optional<Registro> obtenerRegistroMedioRango(Integer idSensor, LocalDateTime fechaInicio,
-			LocalDateTime fechaFin) {
-		
-		return Optional.empty();
-		
-	}
-
-	@Override
-	public List<Registro> obtenerHistoricoRegistros(Integer idSensor) {
+	public Optional<Registro> buscarRegistroPorId(Integer idRegistro) {
 		// TODO Auto-generated method stub
-		return null;
+		return Optional.empty();
+	}
+
+
+	@Override
+	public List<Registro> listarRegistros() {
+		return registroPersistenceMapper.toRegistroList(registroRepository.findAll());
+	}
+
+	@Override
+	public void eliminarRegistro(Integer id) {
+		
+		registroRepository.deleteById(id);
+		
 	}
 
 }

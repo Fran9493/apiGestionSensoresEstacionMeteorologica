@@ -1,6 +1,5 @@
 package com.ticarum.estacionmeteorologica.application.ports.input;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.ticarum.estacionmeteorologica.domain.model.Registro;
@@ -9,10 +8,12 @@ public interface IRegistroServicePort {
 
 	Registro save (Registro registro);
 		
-	Registro findById (Integer idSensor);
+	Registro findById (Integer id);
 	
-	Registro obtenerRegistroMedioRango (Integer idSensor, LocalDateTime fechaInicio, LocalDateTime fechaFin);
+	List<Registro> findAll();
 	
-	List <Registro> obtenerHistoricoRegistros (Integer idSensor);
+	void deleteById (Integer id);
+	
+	Registro obtenerRegistroActual(Integer idSensor);
 	
 }
