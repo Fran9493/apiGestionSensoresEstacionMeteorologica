@@ -35,7 +35,9 @@ public class GeneradorValorAleatorioRegistro {
 	
 	private static double aleatorio(double min, double max) {
 		
-		return min + (Math.random() * (max - min));
+		double aleatorio = min + (Math.random() * (max - min));
+		
+		return Math.round(aleatorio * 100.0) / 100.0;
 		
 	}
 	

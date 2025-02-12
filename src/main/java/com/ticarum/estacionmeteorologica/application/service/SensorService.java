@@ -42,6 +42,12 @@ public class SensorService implements ISensorServicePort {
 	@Override
 	public List<Sensor> findAll() {
 
+		if(sensorPersistencePort.listarSensores().size() == 0) {
+			
+			throw new SensorNotFoundException();
+			
+		}
+		
 		return sensorPersistencePort.listarSensores();
 
 	}

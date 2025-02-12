@@ -8,15 +8,14 @@ import com.ticarum.estacionmeteorologica.application.service.RegistroService;
 import com.ticarum.estacionmeteorologica.application.service.SensorService;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.mapper.IRegistroRestMapper;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.mapper.ISensorRestMapper;
-import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.model.request.RegistroCreateRequest;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.model.request.SensorCreateRequest;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.model.response.RegistroResponse;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.model.response.SensorResponse;
+import com.ticarum.estacionmeteorologica.utils.HistoricoRegistro;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -49,9 +48,11 @@ public class SensorRestController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public void eliminarSensor(@PathVariable Integer id) {
+	public ResponseEntity<Void> eliminarSensor(@PathVariable Integer id) {
 		
 		sensorServicePort.deleteById(id);
+		
+		return ResponseEntity.noContent().build();
 		
 	}
 	
@@ -86,6 +87,13 @@ public class SensorRestController {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(media);
 				
+	}
+	
+	@GetMapping("/{idSensor}/historico")
+	public List<HistoricoRegistro> historicoSensor(@PathVariable Integer idSensor){
+		
+		return registroServicePort.obtenerHistoricoRegistroSensor(idSensor);
+		
 	}
 	
 	@GetMapping("/registros")

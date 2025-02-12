@@ -1,6 +1,5 @@
 package com.ticarum.estacionmeteorologica.application.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,6 +13,7 @@ import com.ticarum.estacionmeteorologica.domain.model.Sensor;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.mapper.ISensorRestMapper;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.repository.IRegistroRepository;
 import com.ticarum.estacionmeteorologica.utils.GeneradorValorAleatorioRegistro;
+import com.ticarum.estacionmeteorologica.utils.HistoricoRegistro;
 
 import lombok.RequiredArgsConstructor;
 
@@ -76,10 +76,18 @@ public class RegistroService implements IRegistroServicePort{
 	public Double obtenerValorMedioSensorFecha(Integer idSensor, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
 				
 		// Consultamos el sensor para ver si existe
-		Sensor sensor = sensorService.findById(idSensor);
+		sensorService.findById(idSensor);
 						
 		return registroRepository.obtenerValorMedioSensorFecha(idSensor, fechaInicio, fechaFin);
 		
+	}
+
+	@Override
+	public List<HistoricoRegistro> obtenerHistoricoRegistroSensor(Integer id) {
+		
+		sensorService.findById(id);
+		
+		return registroRepository.obtenerHistoricoRegistroSensor(id);
 	}
 	
 }
