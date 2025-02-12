@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Profile;
 
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.entity.RegistroEntity;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.entity.SensorEntity;
@@ -21,7 +22,7 @@ public class GarciaCutillasFranciscoJosePruebaTecnicaTicarumApplication implemen
 	
 	private final ISensorRepository sensorRepository;
 	private final IRegistroRepository registroRepository;
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(GarciaCutillasFranciscoJosePruebaTecnicaTicarumApplication.class, args);
 	}
