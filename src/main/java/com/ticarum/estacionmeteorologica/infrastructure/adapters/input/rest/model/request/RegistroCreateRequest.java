@@ -1,6 +1,7 @@
 package com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.model.request;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class RegistroCreateRequest {
 	private double valor;
 	
 	@NotNull(message = "El campo fecha del registro no puede ser nulo")
-	private LocalDate fecha;
+	private LocalDateTime fecha;
 	
 	@NotNull(message = "El registro debe ir asociado a un sensor")
 	private Integer idSensor;

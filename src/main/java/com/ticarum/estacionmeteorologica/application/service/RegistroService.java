@@ -1,5 +1,6 @@
 package com.ticarum.estacionmeteorologica.application.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import com.ticarum.estacionmeteorologica.domain.exception.RegistroNotFoundExcept
 import com.ticarum.estacionmeteorologica.domain.model.Registro;
 import com.ticarum.estacionmeteorologica.domain.model.Sensor;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.mapper.ISensorRestMapper;
+import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.repository.IRegistroRepository;
 import com.ticarum.estacionmeteorologica.utils.GeneradorValorAleatorioRegistro;
 
 import lombok.RequiredArgsConstructor;
@@ -20,8 +22,9 @@ import lombok.RequiredArgsConstructor;
 public class RegistroService implements IRegistroServicePort{
 	
 	private final IRegistroPersistencePort registroPersistencePort;
+	private final IRegistroRepository registroRepository;
+	
 	private final SensorService sensorService;
-
 	private final ISensorRestMapper sensorRestMapper;
 	
 	@Override
@@ -66,6 +69,16 @@ public class RegistroService implements IRegistroServicePort{
 		Registro registroActual = new Registro(null, GeneradorValorAleatorioRegistro.generaRegistro(sensor.getTipo()), LocalDateTime.now(), sensorRestMapper.toSensorResponse(sensor));
 		
 		return registroPersistencePort.nuevoRegistro(registroActual);
+		
+	}
+
+	@Override
+	public Double obtenerValorMedioSensorFecha(Integer idSensor, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+				
+		// Consultamos el sensor para ver si existe
+		Sensor sensor = sensorService.findById(idSensor);
+						
+		return registroRepository.obtenerValorMedioSensorFecha(idSensor, fechaInicio, fechaFin);
 		
 	}
 	

@@ -1,6 +1,7 @@
 package com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ticarum.estacionmeteorologica.application.service.RegistroService;
@@ -15,8 +16,11 @@ import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.mode
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -64,6 +68,24 @@ public class SensorRestController {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(registroRestMapper.toRegistroResponse(registroServicePort.obtenerRegistroActual(idSensor)));
 		
+	}
+	
+	@GetMapping("/{idSensor}/media/{fechaInicio}/{fechaFin}")
+	public ResponseEntity<Double> obtenerRegistroMedioSensorFecha(@PathVariable Integer idSensor, 
+																  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaInicio, 
+																  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaFin){
+				
+		Double media = registroServicePort.obtenerValorMedioSensorFecha(idSensor, fechaInicio, fechaFin);
+				
+		if (media == null) {
+			
+			return ResponseEntity.noContent().build();
+			
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(media);
+				
 	}
 	
 	@GetMapping("/registros")
