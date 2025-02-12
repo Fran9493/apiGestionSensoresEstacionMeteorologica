@@ -28,14 +28,18 @@ public class RegistroPersistenceAdapter implements IRegistroPersistencePort{
 
 	@Override
 	public Optional<Registro> buscarRegistroPorId(Integer idRegistro) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		
+		return registroRepository.findById(idRegistro)
+				.map(registroPersistenceMapper::toRegistro);
+		
 	}
 
 
 	@Override
 	public List<Registro> listarRegistros() {
+		
 		return registroPersistenceMapper.toRegistroList(registroRepository.findAll());
+		
 	}
 
 	@Override
