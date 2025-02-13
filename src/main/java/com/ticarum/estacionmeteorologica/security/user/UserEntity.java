@@ -43,7 +43,7 @@ public class UserEntity implements UserDetails{
     private Integer id;
 	
     @Basic(optional = false)
-    @Column(name = "nombre_usuario")
+    @Column(name = "nombre_usuario", unique = true)
     private String username;
     
     @Column(name = "password_usuario")

@@ -10,7 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.entity.RegistroEntity;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.entity.SensorEntity;
@@ -19,6 +21,9 @@ import com.ticarum.estacionmeteorologica.utils.HistoricoRegistro;
 @DataJpaTest
 @ActiveProfiles("test")
 class IRegistroRepositoryTest {
+	
+	@MockitoBean
+    private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	IRegistroRepository registroRepository;

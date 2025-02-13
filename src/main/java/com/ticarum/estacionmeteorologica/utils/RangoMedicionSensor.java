@@ -1,8 +1,10 @@
 package com.ticarum.estacionmeteorologica.utils;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public enum RangoMedicionSensor {
 
 	SENSOR_TEMPERATURA(-50.0, 50.0),
@@ -13,10 +15,5 @@ public enum RangoMedicionSensor {
 	
 	private final double min;
 	private final double max;
-	
-	private RangoMedicionSensor(double min, double max) {
-		this.min = min;
-		this.max = max;
-	}
-	
+		
 }

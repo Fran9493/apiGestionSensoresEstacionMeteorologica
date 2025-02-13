@@ -44,7 +44,9 @@ public class RegistroService implements IRegistroServicePort{
 
 	@Override
 	public List<Registro> findAll() {
+		
 		return registroPersistencePort.listarRegistros();
+		
 	}
 	
 	@Override
@@ -88,6 +90,7 @@ public class RegistroService implements IRegistroServicePort{
 		sensorService.findById(id);
 		
 		return registroRepository.obtenerHistoricoRegistroSensor(id);
+		
 	}
 	
 }

@@ -1,15 +1,8 @@
 package com.ticarum.estacionmeteorologica.security.auth;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.stream.Collectors;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.ticarum.estacionmeteorologica.security.jwt.JwtService;
 import com.ticarum.estacionmeteorologica.security.user.IUserRepository;
 
-import jakarta.servlet.http.HttpServletRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -30,9 +25,21 @@ public class AuthController {
 	private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final IUserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     
     @PostMapping("/login")
+    @Operation(
+			summary = "Identificarse en el sistema",
+			description = "Entra como usuario autorizado al sistema",
+			tags = {"AUTH"},
+			requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+					description = "Petición con username y password",
+					required = true,
+					content = @Content(
+							mediaType = "application/json",
+							schema = @Schema(implementation = LoginRequest.class)
+							)
+					)			
+			)
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
 
         if (request.getUsername() == null || request.getPassword() == null) {
@@ -46,20 +53,10 @@ public class AuthController {
         UserDetails userDetails = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         
-        System.out.println("👤 Usuario autenticado: " + userDetails.getUsername());
-        System.out.println("🔑 Roles asignados: " + userDetails.getAuthorities());
-
         String token = jwtService.generateToken(userDetails);
+        
         return ResponseEntity.ok(new AuthResponse(token));
+        
     }
-      	
-//	private final AuthService authService;
-//	
-//	@PostMapping(value = "login")
-//    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
-//        
-//        return ResponseEntity.ok(authService.login(request));
-//        
-//    }
-	
+      		
 }

@@ -13,12 +13,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -32,9 +34,13 @@ import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.mode
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.model.response.SensorResponse;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.repository.IRegistroRepository;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.repository.ISensorRepository;
+import com.ticarum.estacionmeteorologica.security.jwt.JwtService;
+import com.ticarum.estacionmeteorologica.security.user.IUserRepository;
+import com.ticarum.estacionmeteorologica.security.user.UserEntity;
 import com.ticarum.estacionmeteorologica.utils.HistoricoRegistro;
 
-@WebMvcTest(SensorRestController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class SensorRestControllerTest {
 	
 	@Autowired
@@ -60,6 +66,14 @@ class SensorRestControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+    
+    @Autowired
+    private IUserRepository userRepository;
+
+    @Autowired
+    private JwtService jwtService;
+
+    private String token;
 
     private SensorResponse sensorResponse;
     private SensorCreateRequest sensorRequest;
@@ -81,6 +95,12 @@ class SensorRestControllerTest {
         //Fechas de prueba
         fechaInicio = LocalDateTime.of(2025, 1, 1, 0, 0);
         fechaFin = LocalDateTime.of(2025, 2, 1, 23, 59);
+        
+        //Obtenemos el usuario ADMIN
+        Optional<UserEntity> adminUser = userRepository.findByUsername("admin");
+        
+        //Generamos un token JWT para este usuario
+        token = jwtService.generateToken(adminUser.get());
 		
 	}
 
@@ -92,6 +112,7 @@ class SensorRestControllerTest {
         when(sensorServicePort.save(any())).thenReturn(null);
 
         mockMvc.perform(post("/sensores")
+        		.header("Authorization", "Bearer " + token)
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(sensorRequest)))
                 .andExpect(status().isCreated())
@@ -106,7 +127,8 @@ class SensorRestControllerTest {
 		
         doNothing().when(sensorServicePort).deleteById(1);
 
-        mockMvc.perform(delete("/sensores/1"))
+        mockMvc.perform(delete("/sensores/1")
+        		.header("Authorization", "Bearer " + token))
                 .andExpect(status().isNoContent());
         
     }
@@ -119,7 +141,8 @@ class SensorRestControllerTest {
         when(sensorServicePort.findAll()).thenReturn(Arrays.asList());
         when(sensorRestMapper.toSensorResponseList(any())).thenReturn(sensores);
 
-        mockMvc.perform(get("/sensores"))
+        mockMvc.perform(get("/sensores")
+        		.header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(1));
         
@@ -131,7 +154,8 @@ class SensorRestControllerTest {
         when(registroServicePort.obtenerRegistroActual(1)).thenReturn(null);
         when(registroRestMapper.toRegistroResponse(any())).thenReturn(registroResponse);
 
-        mockMvc.perform(get("/sensores/1"))
+        mockMvc.perform(get("/sensores/1")
+        		.header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.valor").value(25.5));
@@ -143,7 +167,8 @@ class SensorRestControllerTest {
 		
         when(registroServicePort.obtenerValorMedioSensorFecha(1, fechaInicio, fechaFin)).thenReturn(24.15);
 
-        mockMvc.perform(get("/sensores/1/media/{fechaInicio}/{fechaFin}", fechaInicio, fechaFin))
+        mockMvc.perform(get("/sensores/1/media/{fechaInicio}/{fechaFin}", fechaInicio, fechaFin)
+        		.header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(content().string("24.15"));
         
@@ -154,7 +179,8 @@ class SensorRestControllerTest {
 		
 		when(registroServicePort.obtenerValorMedioSensorFecha(1, fechaInicio, fechaFin)).thenReturn(null);
 
-	    mockMvc.perform(get("/sensores/1/media/{fechaInicio}/{fechaFin}", fechaInicio, fechaFin))
+	    mockMvc.perform(get("/sensores/1/media/{fechaInicio}/{fechaFin}", fechaInicio, fechaFin)
+	    		.header("Authorization", "Bearer " + token))
 	            .andExpect(status().isNoContent());
         
     }
@@ -169,7 +195,8 @@ class SensorRestControllerTest {
 
         when(registroServicePort.obtenerHistoricoRegistroSensor(1)).thenReturn(historico);
 
-        mockMvc.perform(get("/sensores/1/historico"))
+        mockMvc.perform(get("/sensores/1/historico")
+        		.header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(2));
         
