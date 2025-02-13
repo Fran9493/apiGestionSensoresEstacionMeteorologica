@@ -73,11 +73,11 @@ public class SensorRestController {
 	
 	@GetMapping("/{idSensor}/media/{fechaInicio}/{fechaFin}")
 	public ResponseEntity<Double> obtenerRegistroMedioSensorFecha(@PathVariable Integer idSensor, 
-																  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaInicio, 
-																  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaFin){
-				
+																  @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaInicio, 
+																  @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaFin){
+		
 		Double media = registroServicePort.obtenerValorMedioSensorFecha(idSensor, fechaInicio, fechaFin);
-				
+		
 		if (media == null) {
 			
 			return ResponseEntity.noContent().build();
@@ -95,12 +95,5 @@ public class SensorRestController {
 		return registroServicePort.obtenerHistoricoRegistroSensor(idSensor);
 		
 	}
-	
-	@GetMapping("/registros")
-	public List<RegistroResponse> registros() {
 		
-		return registroRestMapper.toRegistroResponseList(registroServicePort.findAll());
-		
-	}
-	
 }
