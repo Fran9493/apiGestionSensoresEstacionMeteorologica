@@ -7,11 +7,15 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.entity.RegistroEntity;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.entity.SensorEntity;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.repository.IRegistroRepository;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.repository.ISensorRepository;
+import com.ticarum.estacionmeteorologica.security.user.IUserRepository;
+import com.ticarum.estacionmeteorologica.security.user.Role;
+import com.ticarum.estacionmeteorologica.security.user.UserEntity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +25,8 @@ public class GarciaCutillasFranciscoJosePruebaTecnicaTicarumApplication implemen
 	
 	private final ISensorRepository sensorRepository;
 	private final IRegistroRepository registroRepository;
+	private final IUserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(GarciaCutillasFranciscoJosePruebaTecnicaTicarumApplication.class, args);
@@ -49,6 +55,12 @@ public class GarciaCutillasFranciscoJosePruebaTecnicaTicarumApplication implemen
 				);
 		
 		registroRepository.saveAll(registroEntities);
+		
+		String passEncriptada = passwordEncoder.encode("admin");
+		
+		UserEntity usuario = new UserEntity(null, "admin", passEncriptada, Role.ADMIN);
+		
+		userRepository.save(usuario);		
 		
 	}
 

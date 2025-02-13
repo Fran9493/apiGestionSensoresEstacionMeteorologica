@@ -1,9 +1,15 @@
 package com.ticarum.estacionmeteorologica.configuration;
 
+import org.springframework.context.annotation.Configuration;
+
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
+@Configuration
 @OpenAPIDefinition(
 		info = @Info(
 				title = "API Estación Meteorológica UMU",
@@ -13,8 +19,15 @@ import io.swagger.v3.oas.annotations.info.Info;
 						name = "Francisco José García Cutillas",
 						email = "fran.garcia93@gmail.com"
 						)				
-				)
+				),
+		security = @SecurityRequirement(name = "BearerAuth")
 		)
+@SecurityScheme(
+	    name = "BearerAuth", 
+	    scheme = "bearer", 
+	    type = SecuritySchemeType.HTTP, 
+	    bearerFormat = "JWT"
+	)
 public class SwaggerConfig {
 
 }
