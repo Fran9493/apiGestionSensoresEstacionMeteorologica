@@ -29,7 +29,7 @@
 	<properties>
 		<java.version>21</java.version>
 	</properties>
-	<dependencies>
+	<dependencies>		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -69,11 +69,11 @@
 		    <artifactId>junit</artifactId>
 		    <scope>test</scope>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.mockito</groupId>-->
-<!--			<artifactId>mockito-core</artifactId>-->
-<!--			<scope>test</scope>-->
-<!--		</dependency>-->
+		<!--		<dependency>-->
+		<!--			<groupId>org.mockito</groupId>-->
+		<!--			<artifactId>mockito-core</artifactId>-->
+		<!--			<scope>test</scope>-->
+		<!--		</dependency>-->
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-inline</artifactId>

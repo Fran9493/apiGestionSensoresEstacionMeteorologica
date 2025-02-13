@@ -23,7 +23,6 @@ import com.ticarum.estacionmeteorologica.domain.model.Registro;
 import com.ticarum.estacionmeteorologica.domain.model.Sensor;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.mapper.ISensorRestMapper;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.model.response.SensorResponse;
-import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.entity.RegistroEntity;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.mapper.IRegistroPersistenceMapper;
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.output.persistence.repository.IRegistroRepository;
 import com.ticarum.estacionmeteorologica.utils.HistoricoRegistro;
@@ -55,9 +54,6 @@ class RegistroServiceTest {
     private Registro registro1;
     private Registro registro2;
     
-    //Entidades equivalentes para la base de datos
-    private RegistroEntity registroEntity1;
-    private RegistroEntity registroEntity2;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
 	

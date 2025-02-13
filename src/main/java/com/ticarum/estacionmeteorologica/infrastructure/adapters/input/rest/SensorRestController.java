@@ -1,7 +1,6 @@
 package com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ticarum.estacionmeteorologica.application.service.RegistroService;
@@ -13,6 +12,9 @@ import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.mode
 import com.ticarum.estacionmeteorologica.infrastructure.adapters.input.rest.model.response.SensorResponse;
 import com.ticarum.estacionmeteorologica.utils.HistoricoRegistro;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -40,6 +42,19 @@ public class SensorRestController {
 	private final IRegistroRestMapper registroRestMapper;
 	
 	@PostMapping
+	@Operation(
+			summary = "Registrar nuevo sensor",
+			description = "Registra un sensor nuevo de un tipo concreto. No pueden existir dos sensores del mismo tipo",
+			tags = {"POST"},
+			requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+					description = "Petición con tipo y magnitud del sensor",
+					required = true,
+					content = @Content(
+							mediaType = "application/json",
+							schema = @Schema(implementation = SensorCreateRequest.class)
+							)
+					)			
+			)
 	public ResponseEntity<SensorResponse> registrarSensor(@Valid @RequestBody SensorCreateRequest request) {
 		
 		return ResponseEntity.status(HttpStatus.CREATED)
@@ -48,6 +63,11 @@ public class SensorRestController {
 	}
 	
 	@DeleteMapping("/{id}")
+	@Operation(
+			summary = "Eliminar un sensor",
+			description = "Elimina un sensor de la base de datos por su ID",
+			tags = {"DELETE"}						
+			)
 	public ResponseEntity<Void> eliminarSensor(@PathVariable Integer id) {
 		
 		sensorServicePort.deleteById(id);
@@ -57,6 +77,11 @@ public class SensorRestController {
 	}
 	
 	@GetMapping
+	@Operation(
+			summary = "Obtiene todos los sensores registrados",
+			description = "Obtiene todos los sensores registrados en la base de datos",
+			tags = {"GET"}						
+			)
 	public List<SensorResponse> sensoresRegistrados(){
 		
 		return sensorRestMapper.toSensorResponseList(sensorServicePort.findAll());
@@ -64,6 +89,11 @@ public class SensorRestController {
 	}
 	
 	@GetMapping("/{idSensor}")
+	@Operation(
+			summary = "Consultar el valor actual del sensor",
+			description = "Devuelve el valor actual del sensor que se le pasa por parámetro el ID",
+			tags = {"GET"}
+			)
 	public ResponseEntity<RegistroResponse> obtenerRegistroActual(@PathVariable Integer idSensor){
 		
 		return ResponseEntity.status(HttpStatus.OK)
@@ -72,6 +102,11 @@ public class SensorRestController {
 	}
 	
 	@GetMapping("/{idSensor}/media/{fechaInicio}/{fechaFin}")
+	@Operation(
+			summary = "Consultar el valor medio de los registros",
+			description = "Devuelve el valor medio de todos los registros de un sensor comprendidos en un rango de fechas",
+			tags = {"GET"}
+			)
 	public ResponseEntity<Double> obtenerRegistroMedioSensorFecha(@PathVariable Integer idSensor, 
 																  @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaInicio, 
 																  @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaFin){
@@ -90,6 +125,11 @@ public class SensorRestController {
 	}
 	
 	@GetMapping("/{idSensor}/historico")
+	@Operation(
+			summary = "Consultar el histórico de un sensor",
+			description = "Devuelve el histórico de registros de un sensor",
+			tags = {"GET"}
+			)
 	public List<HistoricoRegistro> historicoSensor(@PathVariable Integer idSensor){
 		
 		return registroServicePort.obtenerHistoricoRegistroSensor(idSensor);
