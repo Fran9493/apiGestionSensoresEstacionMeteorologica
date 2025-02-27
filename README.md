@@ -5,7 +5,7 @@ Esta API permite la gestión de sensores meteorológicos y el registro de sus me
 - **Autenticación y autorización con JWT**
 - **Gestión de sensores meteorológicos de la estación meteorológica de la Universidad de Murcia**
 - **Consulta de mediciones de los distintos sensores**
-- **Documentación son Swagger**
+- **Documentación con Swagger**
 - **Base de datos en memoria H2**
 - **Test de pruebas con JUnit y Mockito**
 
