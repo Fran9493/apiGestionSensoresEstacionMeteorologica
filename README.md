@@ -12,7 +12,7 @@ Esta API permite la gestión de sensores meteorológicos y el registro de sus me
 ## Ejecución de la API
 - Para probar con la interfaz de Swagger: http://localhost:8080/swagger-ui/index.html
 - Para acceder a la base de datos H2 : http://localhost:8080/h2-console
-- Utilizando la collección de Postman disponible en el raíz del proyecto
+- Utilizando la colección de Postman disponible en el raíz del proyecto
 
 
 ### Autor
